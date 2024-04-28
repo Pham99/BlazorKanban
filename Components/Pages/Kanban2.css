@@ -1,0 +1,16 @@
+﻿.box {
+    background-color: DodgerBlue;
+    color: white;
+    width: 200px;
+    margin: 10px;
+    text-align: center;
+    font-size: 30px;
+    flex-shrink: 0;
+    padding: 10px;
+    border-radius: 10px;
+    min-height: 300px;
+}
+
+.item {
+    background-color: Red;
+}

@@ -1,0 +1,29 @@
+﻿@page "/kanban2"
+@rendermode InteractiveServer
+
+<h3>Kanban2</h3>
+
+<div style="display: flex">
+	@foreach( var label in labels)
+	{
+		<KanbanBox Title=@label></KanbanBox>
+	}
+</div>
+
+
+<input @bind="newTodo" />
+<button @onclick="AddTodo">Add todo</button>
+
+@code {
+
+	public List<string> labels = new();
+
+	public string? newTodo;
+
+	public void AddTodo()
+	{
+		labels.Add(newTodo);
+	}
+
+
+}

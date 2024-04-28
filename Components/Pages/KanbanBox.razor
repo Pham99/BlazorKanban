@@ -1,0 +1,27 @@
+﻿@rendermode InteractiveServer
+
+<div class="box">
+	@Title
+		@foreach (var item in kanbanItems)
+		{
+	<div class="item">
+			@item.Description
+	</div>
+		}
+		<input @bind="newItem" />
+		<button @onclick="AddItem">Add Item</button>
+</div>
+
+@code {
+	[Parameter]
+	public string? Title { get; set; }
+
+	public string newItem { get; set; }
+
+	public List<KanbanItem> kanbanItems { get; set; } = new List<KanbanItem>();
+
+	public void AddItem()
+	{
+		kanbanItems.Add(new KanbanItem() { Description = newItem });
+	}
+}
