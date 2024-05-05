@@ -1,12 +1,13 @@
-﻿@rendermode InteractiveServer
+﻿@page "/view"
+@rendermode InteractiveServer
 
-<div class="box">
-	@Title
+<div class="box" style="background-color: @kanbanBox.BoxColor">
+	@kanbanBox.Title
 		@foreach (var item in kanbanItems)
 		{
-	<div class="item">
-			@item.Description
-	</div>
+			<div class="item">
+				@item.Description
+			</div>
 		}
 		<input @bind="newItem" />
 		<button @onclick="AddItem">Add Item</button>
@@ -14,14 +15,14 @@
 
 @code {
 	[Parameter]
-	public string? Title { get; set; }
+	public KanbanBox kanbanBox { get; set; }
 
 	public string newItem { get; set; }
-
 	public List<KanbanItem> kanbanItems { get; set; } = new List<KanbanItem>();
 
 	public void AddItem()
 	{
 		kanbanItems.Add(new KanbanItem() { Description = newItem });
+		newItem = "";
 	}
 }

@@ -39,6 +39,7 @@ h1:focus {
     padding: 10px;
     border-radius: 10px;
     min-height: 300px;
+    box-shadow: 10px 10px 5px #cdcdcd;
 }
 
 .item {

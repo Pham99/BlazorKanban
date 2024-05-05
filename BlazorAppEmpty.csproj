@@ -7,10 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="KanbanBox.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Content Remove="Components\KanbanBox.razor" />
   </ItemGroup>
 

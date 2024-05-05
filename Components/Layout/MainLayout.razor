@@ -1,6 +1,19 @@
 ﻿@inherits LayoutComponentBase
 
-@Body
+<nav>
+    <ul>
+        <li><NavLink href="/">Home</NavLink></li>
+        <li><NavLink href="count">Counter</NavLink></li>
+        <li><NavLink href="todo">To Do List</NavLink></li>
+        <li><NavLink href="kanban2">Kanban</NavLink></li>
+    </ul>
+    <hr>
+</nav>
+
+<main>
+    @Body
+</main>
+
 
 <div id="blazor-error-ui">
     An unhandled error has occurred.

@@ -4,26 +4,28 @@
 <h3>Kanban2</h3>
 
 <div style="display: flex">
-	@foreach( var label in labels)
+	@foreach( KanbanBox kb in boxes)
 	{
-		<KanbanBox Title=@label></KanbanBox>
+		<KanbanBoxView kanbanBox=kb></KanbanBoxView>
 	}
 </div>
-
-
 <input @bind="newTodo" />
 <button @onclick="AddTodo">Add todo</button>
+<br/>
+<p>
+	<input type="color" @bind="color" />
+	@color
+</p>
 
 @code {
 
-	public List<string> labels = new();
-
+	public List<KanbanBox> boxes = new();
 	public string? newTodo;
+	public string? color;
 
 	public void AddTodo()
 	{
-		labels.Add(newTodo);
+		boxes.Add(new KanbanBox{ Title = newTodo , BoxColor = color});
+		newTodo = "";
 	}
-
-
 }
