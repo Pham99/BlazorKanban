@@ -8,6 +8,7 @@
     <li>
 		<input type="checkbox" @bind="todo.IsDone" />
 		<input @bind="@todo.Title" />
+		<button @onclick="() => DeleteTodo(todo)">Delete todo</button>
 	</li>
 }
 </ul>
@@ -17,11 +18,6 @@
 
 <input @bind="newTodo"/>
 <button @onclick="AddTodo">Add todo</button>
-
-@if(newTodo == "wow")
-{
-	<p>you unlocked and easter egg</p>
-}
 
 @code {
 	private List<TodoItem> todos = new();
@@ -34,5 +30,10 @@
 			todos.Add(new TodoItem { Title = newTodo });
 			newTodo = string.Empty;
 		}
+	}
+	private void DeleteTodo(TodoItem todo)
+	{
+		todos.Remove(todo);
+		//StateHasChanged();
 	}
 }

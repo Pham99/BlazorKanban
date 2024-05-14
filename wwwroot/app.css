@@ -20,29 +20,161 @@ h1:focus {
     color: white;
 }
 
-    .blazor-error-boundary::after {
-        content: "An error has occurred."
-    }
+.blazor-error-boundary::after {
+    content: "An error has occurred."
+}
 
 .darker-border-checkbox.form-check-input {
     border-color: #929292;
 }
 
 .box {
-    background-color: DodgerBlue;
-    color: white;
-    width: 200px;
+    background-color: #f1f1f1;
+    color: black;
+    width: 300px;
     margin: 10px;
     text-align: center;
     font-size: 30px;
     flex-shrink: 0;
     padding: 10px;
     border-radius: 10px;
-    min-height: 300px;
+    min-height: 200px;
     box-shadow: 10px 10px 5px #cdcdcd;
 }
 
 .item {
-    background-color: Red;
+    background-color: white;
     margin: 10px;
+    border-radius: 5px;
+    min-height: 100px;
+    text-align: left;
+    font-size: 20px;
+    padding: 10px;
+    word-wrap: anywhere;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+/* KANBAN */
+.kanban-board {
+    display: flex;
+}
+.kanban-column {
+    flex-shrink: 0;
+    width: 300px;
+    padding: 10px;
+    background-color: #f4f4f4;
+    border-radius: 5px;
+    margin: 0 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+    text-align: center;
+}
+.kanban-card {
+    background-color: #fff;
+    padding: 10px;
+    margin: 10px 10px 10px 10px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s;
+    cursor: pointer;
+}
+.kanban-column:hover {
+    background-color: #f0f0f0;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+.kanban-card:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* FORM */
+.form-container {
+    width: 400px;
+    margin-left: 40px;
+    margin-bottom: 15px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.form-container h1{
+    margin-bottom: 15px;
+}
+.form-container label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+.form-container input[type="text"],
+.form-container input[type="date"],
+.form-container input[type="color"] {
+    width: 100%;
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+.form-container input[type="color"] {
+    padding: 3px;
+    border-radius: 5px;
+    height: 40px;
+    appearance: none;
+}
+
+.form-container button,
+.form-container button[type="submit"] {
+    width: 100%;
+    padding: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.form-container button:hover,
+.form-container button[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* BUTTON */
+.circular-button {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: white;
+    color: black;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.circular-button:hover {
+    background-color: #0056b3;
+}
+
+.circular-button:active {
+    transform: scale(0.95);
+}
+
+.form-container button.button-red {
+    width: 100%;
+    padding: 10px;
+    background-color: #e50000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.form-container button.button-red:hover {
+    background-color: #b32121;
 }

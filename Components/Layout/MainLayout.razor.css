@@ -1,15 +1,34 @@
-ul {
-    list-style-type: none;
+nav.navbar {
+    background-color: #333;
+    padding: 10px 40px;
     display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 30px;
 }
 
-li {
-    margin: 10px;
-    font-weight: 600;
-    color: blue;
-    padding: 14px 16px;
-    background-color: #a9ffa4;
+nav.navbar a {
+    padding: 12px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    transition: background-color 0.3s;
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 20px;
 }
+
+/* Hover effect for home button */
+nav.navbar a:hover {
+    background-color: #0056b3;
+    text-decoration: underline;
+}
+
+/* Click effect for home button */
+nav.navbar a:active {
+    transform: translateY(1px);
+}
+
 #blazor-error-ui {
     background: lightyellow;
     bottom: 0;

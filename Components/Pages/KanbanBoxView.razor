@@ -1,28 +1,36 @@
 ﻿@page "/view"
+@using Data
 @rendermode InteractiveServer
+@inject NavigationManager naviMan
+@inject KanbanService KanbanSvc
 
-<div class="box" style="background-color: @kanbanBox.BoxColor">
-	@kanbanBox.Title
-		@foreach (var item in kanbanItems)
+<div class="kanban-column" style="background-color: @kanbanBox.BoxColor">
+	<h2>@kanbanBox.Title</h2>
+		@foreach (var item in kanbanBox.kanbanItems)
 		{
-			<div class="item">
-				@item.Description
-			</div>
+			<KanbanItemView item="item"/>
 		}
-		<input @bind="newItem" />
-		<button @onclick="AddItem">Add Item</button>
+		<button class="circular-button" @onclick="GoToForm">Edit</button>
 </div>
 
 @code {
 	[Parameter]
 	public KanbanBox kanbanBox { get; set; }
 
-	public string newItem { get; set; }
-	public List<KanbanItem> kanbanItems { get; set; } = new List<KanbanItem>();
-
-	public void AddItem()
+	private void GoToForm()
 	{
-		kanbanItems.Add(new KanbanItem() { Description = newItem });
-		newItem = "";
+		naviMan.NavigateTo($"/boxform/{kanbanBox.Id}");
+	}
+	private void Delete(KanbanBox kb)
+	{
+		KanbanSvc.RemoveKanbanBox(kb);
+		StateHasChanged();
+	}
+	[Parameter]
+	public EventCallback<KanbanBox> OnDelete { get; set; }
+
+	private async Task DeleteTask()
+	{
+		await OnDelete.InvokeAsync(kanbanBox);
 	}
 }

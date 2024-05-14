@@ -1,31 +1,34 @@
 ﻿@page "/kanban2"
-@rendermode InteractiveServer
+@using Data
+@inject KanbanService KanbanSvc
+@rendermode @(new InteractiveServerRenderMode(false))
+@attribute [StreamRendering]
 
-<h3>Kanban2</h3>
-
-<div style="display: flex">
-	@foreach( KanbanBox kb in boxes)
-	{
-		<KanbanBoxView kanbanBox=kb></KanbanBoxView>
-	}
-</div>
-<input @bind="newTodo" />
-<button @onclick="AddTodo">Add todo</button>
-<br/>
-<p>
-	<input type="color" @bind="color" />
-	@color
-</p>
+@if (boxes is null)
+{
+	<p>Loading...</p>
+}
+else
+{	
+	<div class="kanban-board">
+		@foreach( KanbanBox kb in boxes)
+		{
+			<KanbanBoxView kanbanBox=kb OnDelete="@(() => DeleteTask(kb))"></KanbanBoxView>
+		}
+	</div>
+}
 
 @code {
 
-	public List<KanbanBox> boxes = new();
-	public string? newTodo;
-	public string? color;
+	public List<KanbanBox> boxes { get; set; }
 
-	public void AddTodo()
+	protected override async Task OnInitializedAsync()
 	{
-		boxes.Add(new KanbanBox{ Title = newTodo , BoxColor = color});
-		newTodo = "";
+		//await Task.Delay(500);
+		boxes = await KanbanSvc.GetKanbanAsync();
+	}
+	private void DeleteTask(KanbanBox kb)
+	{
+		KanbanSvc.RemoveKanbanBox(kb);
 	}
 }

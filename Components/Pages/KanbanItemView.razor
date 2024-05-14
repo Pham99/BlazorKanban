@@ -1,0 +1,15 @@
+﻿
+<div class="kanban-card">
+	<b>
+		@item.Title
+	</b>
+	<p>
+		@item.Description
+	</p>
+	@item.Deadline
+</div>
+
+@code {
+	[Parameter]
+	public KanbanItem? item { get; set; }
+}

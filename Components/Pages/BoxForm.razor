@@ -1,0 +1,64 @@
+﻿@page "/boxform/{id:int}"
+@using Data
+@inject KanbanService KanbanSvc
+@inject NavigationManager NavMan
+@rendermode InteractiveServer
+
+@if (kbBox != null)
+{
+<div class="form-container">
+	<h1>Add Card</h1>
+	<form>
+		<label for="Title">Title</label>
+		<input id="Title" type="text" @bind="newTitle"/>
+		<label for="Description">Description</label>
+		<input id="Description" type="text" @bind="newDescription"/>
+		<input type="date" @bind="newDeadline"/>
+		<button @onclick="AddItem">Add Item</button>
+	</form>
+</div>
+
+<div class="form-container">
+	<h1>Edit Column</h1>
+	<form>
+		<label for"Title">Title</label>
+		<input id="Title" type="text" @bind="kbBox.Title" />
+		<label for"Color">Colour</label>
+		<input id="Color" type="color" @bind="kbBox.BoxColor"/>
+	</form>
+</div>
+<div class="form-container">
+	<h1>Delete Column</h1>
+	<button class="button-red" @onclick="DeleteColumn">DELETE</button>
+</div>
+}
+else{
+	<p>nothing here</p>
+}
+
+
+@code {
+	[Parameter]
+	public int Id { get; set; }
+	public KanbanBox? kbBox { get; set; }
+
+	private string? newTitle;
+	private string? newDescription;
+	private DateOnly? newDeadline;
+
+	protected override void OnInitialized()
+	{
+		kbBox = KanbanSvc.GetKanbanBox(Id);
+	}
+	private void AddItem()
+	{
+		kbBox.kanbanItems.Add(new KanbanItem() {Title = newTitle, Description = newDescription, DateCreated = DateOnly.FromDateTime(DateTime.Now), Deadline = newDeadline });
+		newTitle = "";
+		newDescription = "";
+	}
+	private void DeleteColumn()
+	{
+		KanbanSvc.RemoveKanbanBox(kbBox);
+		NavMan.NavigateTo($"/kanban2");
+	}
+}
