@@ -1,29 +1,28 @@
-﻿@page "/form"
+﻿@page "/createform"
 @rendermode InteractiveServer
 @using Data
 @inject KanbanService KanbanSvc
 
 <div class="form-container">
 	<form>
-		<h1>Form</h1>
+		<h1>Create Column</h1>
 		<label for="Title">Title</label>
-		<input id="Title" type="text" @bind="newTodo" />
+		<input id="Title" type="text" @bind="newTitle" />
 		<label for="Colour">Colour</label>
 		<input id="Colour"type="color" @bind="color" />
-		<button @onclick="AddTodo">Add todo</button>
+		<button @onclick="AddColumn">Add todo</button>
 	</form>
 </div>
 
 
-
 @code {
-	public string newTodo;
+	public string newTitle;
 	public string color = "#f4f4f4";
 
-	public void AddTodo()
+	public void AddColumn()
 	{
-		KanbanSvc.AddKanbanColumn(new KanbanBox(newTodo, color));
-		newTodo = "";
+		KanbanSvc.kanbanColumns.Add(new KanbanColumnModel(newTitle, color));
+		newTitle = "";
 		color = "#f4f4f4";
 	}
 }

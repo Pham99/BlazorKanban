@@ -1,0 +1,22 @@
+﻿@using Data
+@rendermode InteractiveServer
+@inject NavigationManager NavMan
+
+<div class="kanban-column" style="background-color: @Column.BoxColor">
+	<h2>@Column.Title</h2>
+		@foreach (var card in Column.Cards)
+		{
+			<KanbanCard Card="card" originId="Column.Id"/>
+		}
+		<button class="circular-button" @onclick="GoToForm">Edit</button>
+</div>
+
+@code {
+	[Parameter]
+	public KanbanColumnModel? Column { get; set; }
+
+	private void GoToForm()
+	{
+		NavMan.NavigateTo($"/editform/{Column.Id}");
+	}
+}

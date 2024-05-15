@@ -1,0 +1,53 @@
+﻿@using Data
+@inject KanbanService kanbanSvc
+@inject NavigationManager NavMan
+@rendermode InteractiveServer
+
+<div class="kanban-card">
+	<b>
+		@Card.Title
+	</b>
+	<p>
+		@Card.Description
+	</p>
+	<i>
+		@Card.Deadline
+	</i>
+
+	<div>
+	<select @bind="destinationId">
+		@foreach( var column in kbCol)
+		{
+			<option value="@column.Id">@column.Title</option>
+		}
+	</select>
+	<button @onclick="Move">Move</button>
+	</div>
+</div>
+
+@code {
+	[Parameter]
+	public KanbanCardModel? Card { get; set; }
+	private bool hideMenu = true;
+	private int destinationId;
+	[Parameter]
+	public int originId { get; set; }
+
+	private List<KanbanColumnModel>? kbCol;
+
+	protected override void OnInitialized()
+	{
+		kbCol = kanbanSvc.kanbanColumns;
+	}
+
+	private void Move()
+	{
+		if (destinationId != 0)
+		{
+		KanbanCardModel temp = Card;
+		kbCol.Find(x => x.Id == originId).Cards.Remove(Card);
+		kbCol.FirstOrDefault(x => x.Id == destinationId).Cards.Add(temp);
+		NavMan.Refresh(true);			
+		}
+	}
+}

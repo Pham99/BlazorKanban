@@ -28,43 +28,51 @@ h1:focus {
     border-color: #929292;
 }
 
-.box {
-    background-color: #f1f1f1;
-    color: black;
-    width: 300px;
-    margin: 10px;
-    text-align: center;
-    font-size: 30px;
-    flex-shrink: 0;
-    padding: 10px;
-    border-radius: 10px;
-    min-height: 200px;
-    box-shadow: 10px 10px 5px #cdcdcd;
-}
-
-.item {
-    background-color: white;
-    margin: 10px;
-    border-radius: 5px;
-    min-height: 100px;
-    text-align: left;
-    font-size: 20px;
-    padding: 10px;
-    word-wrap: anywhere;
-}
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
+
+/* NAVBAR */
+nav.navbar {
+    background-color: #333;
+    padding: 10px 40px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+nav.navbar a {
+    padding: 12px 20px;
+    border-radius: 5px;
+    background-color: #007bff;
+    transition: background-color 0.3s;
+    color: white;
+    text-decoration: none;
+    margin-right: 20px;
+    font-size: 20px;
+}
+
+nav.navbar a:hover {
+    background-color: #0056b3;
+    text-decoration: underline;
+}
+
+nav.navbar a:active {
+    transform: translateY(1px);
+}
+
 /* KANBAN */
 .kanban-board {
     display: flex;
 }
+
 .kanban-column {
     flex-shrink: 0;
     width: 300px;
+    min-width: 200px;
     padding: 10px;
     background-color: #f4f4f4;
     border-radius: 5px;
@@ -73,6 +81,7 @@ h1:focus {
     transition: background-color 0.3s, box-shadow 0.3s;
     text-align: center;
 }
+
 .kanban-card {
     background-color: #fff;
     padding: 10px;
@@ -80,12 +89,13 @@ h1:focus {
     border-radius: 5px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.3s;
-    cursor: pointer;
 }
+
 .kanban-column:hover {
     background-color: #f0f0f0;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
+
 .kanban-card:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -100,14 +110,17 @@ h1:focus {
     border-radius: 10px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
+
 .form-container h1{
     margin-bottom: 15px;
 }
+
 .form-container label {
     display: block;
     margin-bottom: 5px;
     font-size: 20px;
 }
+
 .form-container input[type="text"],
 .form-container input[type="date"],
 .form-container input[type="color"] {
@@ -118,6 +131,7 @@ h1:focus {
     border-radius: 5px;
     font-size: 16px;
 }
+
 .form-container input[type="color"] {
     padding: 3px;
     border-radius: 5px;
@@ -137,6 +151,7 @@ h1:focus {
     cursor: pointer;
     transition: background-color 0.3s;
 }
+
 .form-container button:hover,
 .form-container button[type="submit"]:hover {
     background-color: #45a049;
@@ -156,7 +171,7 @@ h1:focus {
 }
 
 .circular-button:hover {
-    background-color: #0056b3;
+    background-color: #c2c2c2;
 }
 
 .circular-button:active {

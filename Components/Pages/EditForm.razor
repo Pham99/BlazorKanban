@@ -1,10 +1,10 @@
-﻿@page "/boxform/{id:int}"
+﻿@page "/editform/{id:int}"
 @using Data
 @inject KanbanService KanbanSvc
 @inject NavigationManager NavMan
 @rendermode InteractiveServer
 
-@if (kbBox != null)
+@if (Column != null)
 {
 <div class="form-container">
 	<h1>Add Card</h1>
@@ -22,9 +22,9 @@
 	<h1>Edit Column</h1>
 	<form>
 		<label for"Title">Title</label>
-		<input id="Title" type="text" @bind="kbBox.Title" />
+		<input id="Title" type="text" @bind="Column.Title" />
 		<label for"Color">Colour</label>
-		<input id="Color" type="color" @bind="kbBox.BoxColor"/>
+		<input id="Color" type="color" @bind="Column.BoxColor"/>
 	</form>
 </div>
 <div class="form-container">
@@ -40,7 +40,7 @@ else{
 @code {
 	[Parameter]
 	public int Id { get; set; }
-	public KanbanBox? kbBox { get; set; }
+	public KanbanColumnModel? Column { get; set; }
 
 	private string? newTitle;
 	private string? newDescription;
@@ -48,17 +48,17 @@ else{
 
 	protected override void OnInitialized()
 	{
-		kbBox = KanbanSvc.GetKanbanBox(Id);
+		Column = KanbanSvc.kanbanColumns.Find(x => x.Id == Id);
 	}
 	private void AddItem()
 	{
-		kbBox.kanbanItems.Add(new KanbanItem() {Title = newTitle, Description = newDescription, DateCreated = DateOnly.FromDateTime(DateTime.Now), Deadline = newDeadline });
+		Column.Cards.Add(new KanbanCardModel() {Title = newTitle, Description = newDescription, Deadline = newDeadline });
 		newTitle = "";
 		newDescription = "";
 	}
 	private void DeleteColumn()
 	{
-		KanbanSvc.RemoveKanbanBox(kbBox);
-		NavMan.NavigateTo($"/kanban2");
+		KanbanSvc.kanbanColumns.Remove(Column);
+		NavMan.NavigateTo($"/");
 	}
 }
