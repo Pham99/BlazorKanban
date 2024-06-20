@@ -1,5 +1,7 @@
 using BlazorAppEmpty.Components;
 using BlazorAppEmpty.Data;
+using BlazorAppEmpty.Services;
+using Microsoft.EntityFrameworkCore;
 
 namespace BlazorAppEmpty
 {
@@ -13,6 +15,9 @@ namespace BlazorAppEmpty
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
             builder.Services.AddSingleton<KanbanService>();
+
+            //pøidávám služby jako user atd...
+            builder.Services.AddSingleton<UserService>();
 
             var app = builder.Build();
 

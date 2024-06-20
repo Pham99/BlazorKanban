@@ -1,0 +1,31 @@
+﻿@page "/dashboard"
+@using BlazorAppEmpty.Data
+@using BlazorAppEmpty.Models
+@inject KanbanService KanbanSvc
+@rendermode @(new InteractiveServerRenderMode(false))
+@attribute [StreamRendering]
+
+@if (Columns is null)
+{
+	<p>Loading...</p>
+}
+else
+{
+	<div class="kanban-board">
+		@foreach (KanbanColumnModel column in Columns)
+		{
+			<KanbanColumn Column="column"></KanbanColumn>
+		}
+	</div>
+}
+
+@code {
+
+	public List<KanbanColumnModel>? Columns { get; set; }
+
+	protected override async Task OnInitializedAsync()
+	{
+		//await Task.Delay(500);
+		Columns = await KanbanSvc.GetKanbanAsync();
+	}
+}

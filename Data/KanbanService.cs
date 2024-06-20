@@ -1,4 +1,6 @@
-﻿namespace BlazorAppEmpty.Data
+﻿using BlazorAppEmpty.Models;
+
+namespace BlazorAppEmpty.Data
 {
     public class KanbanService
     {

@@ -1,0 +1,25 @@
+﻿@page "/register"
+@using BlazorAppEmpty.Services
+@inject UserService US
+@using BlazorAppEmpty.Models
+
+<h3>Register</h3>
+<EditForm Model=@user OnInvalidSubmit="AddUser" FormName="RegisterForm">
+	<input type="text" placeholder="Name" @bind="user.Name"/>
+	<input type="email" placeholder="E-mail" @bind="user.Email"/>
+	<input type="password" placeholder="Password" @bind="user.Password"/>
+	<input class="btn btn-primary" type="submit" @onclick="AddUser" >Register</input>
+</EditForm>
+
+<h4><a href="/register">Register</a></h4>
+
+@code {
+
+	User user = new User();
+
+	public async Task AddUser()
+	{
+		US.AddNewUser(user);
+		user = new User();
+	}
+}
