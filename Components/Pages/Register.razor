@@ -1,17 +1,20 @@
 ﻿@page "/register"
 @using BlazorAppEmpty.Services
-@inject UserService US
 @using BlazorAppEmpty.Models
+@inject UserService US
 
-<h3>Register</h3>
-<EditForm Model=@user OnValidSubmit="AddUser" FormName="RegisterForm">
-	<InputText @bind-Value="user.Name"/>
-	<InputText @bind-Value="user.Email" />
-	<InputText @bind-Value="user.Password" />
-	<input class="btn btn-primary" type="submit" @onclick="AddUser" >Register</input>
-</EditForm>
-
-<h4><a href="/register">Register</a></h4>
+<div class="register-form">
+	<h3 class="register-header">Register</h3>
+	<EditForm Model=@user OnValidSubmit="AddUser" FormName="RegisterForm">
+		<InputText @bind-Value="user.Name" placeholder="Name" />
+		<br />
+		<InputText @bind-Value="user.Email" placeholder="E-mail" />
+		<br />
+		<InputText @bind-Value="user.Password" placeholder="Password" />
+		<br />
+		<input class="register-btn" type="submit" @onclick="AddUser">Register</input>
+	</EditForm>
+</div>
 
 @code {
 	[SupplyParameterFromForm]
