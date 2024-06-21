@@ -1,12 +1,44 @@
 ﻿@page "/"
+@using BlazorAppEmpty.Services
+@using BlazorAppEmpty.Models
+@inject UserService US
+@inject NavigationManager Navman
 
-<form class="login-form">
-	<input type="text" />
-	<input type="password" />
-	<button class="btn btn-primary" type="button">Log In</button>
-</form>
+<h3>Log In</h3>
 
+<EditForm Model="@user" OnValidSubmit="UExists" FormName="LoginForm">
+
+    <InputText @bind-Value="user.Name" />
+    <InputText @bind-Value="user.Password" />
+
+    <button type="submit" class="btn btn-primary">Log In</button>
+</EditForm>
+
+<h4 style="color: red;">@ErrorMsg</h4>
 
 @code {
+    [SupplyParameterFromForm]
+    public User? user { get; set; }
 
+    public string ErrorMsg { get; set; }
+
+    //zajištění, že user je inicializován před použitím
+    protected override void OnInitialized()
+    {
+        user ??= new();
+    }
+
+    private async Task UExists()
+    {
+        bool exists = await US.UserExists(user);
+        if (exists)
+        {
+            US.currentUser = user;
+            Navman.NavigateTo("/dashboard");
+        }
+        else
+        {
+            ErrorMsg = "Nemáte účet, nebo zadáváte špatné heslo";
+        }
+    }
 }

@@ -1,10 +1,15 @@
 ﻿@page "/dashboard"
 @using BlazorAppEmpty.Data
 @using BlazorAppEmpty.Models
+@using BlazorAppEmpty.Services
 @inject KanbanService KanbanSvc
 @rendermode @(new InteractiveServerRenderMode(false))
 @attribute [StreamRendering]
+@using BlazorAppEmpty.Components.Layout
+@layout MainLayout
+@inject UserService US
 
+<h2 class="user-header">Vítejte uživateli @user.Name !</h2>
 @if (Columns is null)
 {
 	<p>Loading...</p>
@@ -18,14 +23,15 @@ else
 		}
 	</div>
 }
-
 @code {
 
+	public User user { get; set; }
 	public List<KanbanColumnModel>? Columns { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
 		//await Task.Delay(500);
 		Columns = await KanbanSvc.GetKanbanAsync();
+		user = US.GetUser();
 	}
 }

@@ -1,9 +1,13 @@
 ﻿@page "/editform/{id:int}"
 @using Data;
 @using BlazorAppEmpty.Models
+@using BlazorAppEmpty.Components.Layout
 @inject KanbanService KanbanSvc
 @inject NavigationManager NavMan
 @rendermode InteractiveServer
+@layout MainLayout
+@using BlazorAppEmpty.Services
+@inject UserService US
 
 @if (Column != null)
 {
@@ -47,13 +51,16 @@ else{
 	private string? newDescription;
 	private DateOnly? newDeadline;
 
+	public User? user;
+
 	protected override void OnInitialized()
 	{
 		Column = KanbanSvc.kanbanColumns.Find(x => x.Id == Id);
+		user = US.GetUser();
 	}
 	private void AddItem()
 	{
-		Column.Cards.Add(new KanbanCardModel() {Title = newTitle, Description = newDescription, Deadline = newDeadline });
+		Column.Cards.Add(new KanbanCardModel() {Title = newTitle, Description = newDescription, Deadline = newDeadline, User = user });
 		newTitle = "";
 		newDescription = "";
 	}

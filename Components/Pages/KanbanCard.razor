@@ -3,6 +3,8 @@
 @inject KanbanService kanbanSvc
 @inject NavigationManager NavMan
 @rendermode InteractiveServer
+@using BlazorAppEmpty.Services
+@inject UserService US
 
 <div class="kanban-card">
 	<b>
@@ -14,6 +16,8 @@
 	<i>
 		@Card.Deadline
 	</i>
+
+	<strong>@Card.User.Name</strong>
 
 	<div>
 	<select @bind="destinationId">
@@ -36,9 +40,12 @@
 
 	private List<KanbanColumnModel>? kbCol;
 
+	public User user { get; set; }
+
 	protected override void OnInitialized()
 	{
 		kbCol = kanbanSvc.kanbanColumns;
+		user = US.GetUser();
 	}
 
 	private void Move()
