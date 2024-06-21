@@ -1,5 +1,4 @@
-﻿using System.Drawing;
-
+﻿
 namespace BlazorAppEmpty.Models
 {
     public class KanbanColumnModel
