@@ -2,12 +2,12 @@
 @using BlazorAppEmpty.Data
 @using BlazorAppEmpty.Models
 @using BlazorAppEmpty.Services
-@inject KanbanService KanbanSvc
+@using BlazorAppEmpty.Components.Layout
 @rendermode @(new InteractiveServerRenderMode(false))
 @attribute [StreamRendering]
-@using BlazorAppEmpty.Components.Layout
 @layout MainLayout
 @inject UserService US
+@inject KanbanService KanbanSvc
 
 <h2 class="user-header">Vítejte uživateli @user.Name !</h2>
 @if (Columns is null)

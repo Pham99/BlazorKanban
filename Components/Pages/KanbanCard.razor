@@ -1,9 +1,9 @@
 ﻿@using Data
 @using BlazorAppEmpty.Models
+@using BlazorAppEmpty.Services
 @inject KanbanService kanbanSvc
 @inject NavigationManager NavMan
 @rendermode InteractiveServer
-@using BlazorAppEmpty.Services
 @inject UserService US
 
 <div class="kanban-card">
@@ -52,10 +52,10 @@
 	{
 		if (destinationId != 0)
 		{
-		KanbanCardModel temp = Card;
-		kbCol.Find(x => x.Id == originId).Cards.Remove(Card);
-		kbCol.FirstOrDefault(x => x.Id == destinationId).Cards.Add(temp);
-		NavMan.Refresh(true);			
+			KanbanCardModel temp = Card;
+			kbCol.Find(x => x.Id == originId).Cards.Remove(Card);
+			kbCol.FirstOrDefault(x => x.Id == destinationId).Cards.Add(temp);
+			NavMan.Refresh(true);			
 		}
 	}
 }

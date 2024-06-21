@@ -4,15 +4,18 @@
 @inject UserService US
 @inject NavigationManager Navman
 
-<h3>Log In</h3>
-
+<div class="form-login">
+    <h3 class="login-header">Log In</h3>
 <EditForm Model="@user" OnValidSubmit="UExists" FormName="LoginForm">
 
-    <InputText @bind-Value="user.Name" />
-    <InputText @bind-Value="user.Password" />
-
-    <button type="submit" class="btn btn-primary">Log In</button>
+    <InputText @bind-Value="user.Name" id="name" placeholder="Name" />
+    <br />
+    <InputText @bind-Value="user.Password" id="password" placeholder="Password" />
+    <br />
+    <button type="submit" class="login-btn">Log In</button>
 </EditForm>
+</div>
+<p>Pokud ještě nemáte účet, zaregistrujte se <a href="/Register">zde</a></p>
 
 <h4 style="color: red;">@ErrorMsg</h4>
 
