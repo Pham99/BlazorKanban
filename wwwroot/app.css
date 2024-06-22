@@ -34,36 +34,6 @@ h1:focus {
     padding: 0;
 }
 
-/* NAVBAR */
-nav.navbar {
-    background-color: #333;
-    padding: 10px 40px;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    margin-bottom: 30px;
-}
-
-nav.navbar a {
-    padding: 12px 20px;
-    border-radius: 5px;
-    background-color: #007bff;
-    transition: background-color 0.3s;
-    color: white;
-    text-decoration: none;
-    margin-right: 20px;
-    font-size: 20px;
-}
-
-nav.navbar a:hover {
-    background-color: #0056b3;
-    text-decoration: underline;
-}
-
-nav.navbar a:active {
-    transform: translateY(1px);
-}
-
 /* KANBAN */
 .kanban-board {
     display: flex;

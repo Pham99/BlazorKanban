@@ -7,10 +7,12 @@
 <div class="form-login">
     <h3 class="login-header">Log In</h3>
 <EditForm Model="@user" OnValidSubmit="UExists" FormName="LoginForm">
-
+    <DataAnnotationsValidator/>
     <InputText @bind-Value="user.Name" id="name" placeholder="Name" />
+    <ValidationMessage For="() => user.Name" />
     <br />
     <InputText @bind-Value="user.Password" id="password" placeholder="Password" />
+    <ValidationMessage For="() => user.Password" />
     <br />
     <button type="submit" class="login-btn">Log In</button>
 </EditForm>

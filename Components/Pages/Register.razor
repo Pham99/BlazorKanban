@@ -6,13 +6,17 @@
 <div class="register-form">
 	<h3 class="register-header">Register</h3>
 	<EditForm Model=@user OnValidSubmit="AddUser" FormName="RegisterForm">
+		<DataAnnotationsValidator/>
 		<InputText @bind-Value="user.Name" placeholder="Name" />
+		<ValidationMessage For="() => user.Name" />	
 		<br />
 		<InputText @bind-Value="user.Email" placeholder="E-mail" />
+		<ValidationMessage For="() => user.Email" />
 		<br />
-		<InputText @bind-Value="user.Password" placeholder="Password" />
+		<InputText @bind-Value="user.Password" placeholder="Password" type="password"/>
+		<ValidationMessage For="() => user.Password" />
 		<br />
-		<input class="register-btn" type="submit" @onclick="AddUser">Register</input>
+		<button class="register-btn" type="submit">Register</button>
 	</EditForm>
 </div>
 
