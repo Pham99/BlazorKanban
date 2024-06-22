@@ -4,6 +4,8 @@
 @inject KanbanService KanbanSvc
 @using BlazorAppEmpty.Components.Layout
 @layout MainLayout
+@using BlazorAppEmpty.Services
+@inject KanbanColumnService KanbanColSvc
 
 <div class="form-container">
 	<form>
@@ -23,7 +25,7 @@
 
 	public void AddColumn()
 	{
-		KanbanSvc.kanbanColumns.Add(new KanbanColumnModel(newTitle, color));
+		KanbanColSvc.AddColumn(new KColumnModelDB(newTitle));
 		newTitle = "";
 		color = "#f4f4f4";
 	}

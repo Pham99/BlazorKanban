@@ -9,5 +9,10 @@ namespace BlazorAppEmpty.Models
 		public int Id { get; set; }
 		public int Name { get; set; }
 		List<KCardModelDB> Cards { get; set; }
+
+		public KColumnModelDB(string Name) 
+		{
+			Name = Name;
+		}
 	}
 }

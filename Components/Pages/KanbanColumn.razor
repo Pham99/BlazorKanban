@@ -2,6 +2,7 @@
 @using BlazorAppEmpty.Models
 @rendermode InteractiveServer
 @inject NavigationManager NavMan
+@inject KanbanService KS
 
 <div class="kanban-column" style="background-color: @Column.BoxColor">
 	<h2>@Column.Title</h2>

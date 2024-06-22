@@ -21,6 +21,8 @@ namespace BlazorAppEmpty
 
             //pøidávám služby jako user atd...
             builder.Services.AddSingleton<UserService>();
+            builder.Services.AddSingleton<KanbanCardService>();
+            builder.Services.AddSingleton<KanbanColumnService>();
 
             var app = builder.Build();
 
