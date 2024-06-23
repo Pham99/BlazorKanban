@@ -32,21 +32,15 @@ namespace BlazorAppEmpty.Migrations
                     b.Property<int>("IdUser")
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("KbColumnId")
-                        .HasColumnType("INTEGER");
-
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("KbColumnId");
+                    b.HasIndex("IdColumn");
 
-                    b.HasIndex("UserId");
+                    b.HasIndex("IdUser");
 
                     b.ToTable("cards");
                 });
@@ -96,13 +90,13 @@ namespace BlazorAppEmpty.Migrations
                 {
                     b.HasOne("BlazorAppEmpty.Models.KColumnModelDB", "KbColumn")
                         .WithMany("Cards")
-                        .HasForeignKey("KbColumnId")
+                        .HasForeignKey("IdColumn")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("BlazorAppEmpty.Models.User", "User")
                         .WithMany()
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("IdUser")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
