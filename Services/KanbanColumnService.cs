@@ -13,7 +13,12 @@ namespace BlazorAppEmpty.Services
 		{
 			using (var context = new DatabaseContext())
 			{
-				await context.cards.AddAsync(KanbanCard);
+				var column = context.columns.FirstOrDefault(c => c.Id == KanbanCard.IdColumn);
+				if (column != null)
+				{
+					column.Cards.Add(KanbanCard);
+				}
+				//await context.cards.AddAsync(KanbanCard);
 				await context.SaveChangesAsync();
 			}
 		}
@@ -41,6 +46,33 @@ namespace BlazorAppEmpty.Services
 			{
 				await context.columns.AddAsync(KanbanColumn);
 				await context.SaveChangesAsync();
+			}
+		}
+		public async Task<List<KColumnModelDB>> GetColumns()
+		{
+			using (var context = new DatabaseContext())
+			{
+				return await context.columns.ToListAsync();
+			}
+		}
+		public KColumnModelDB GetColumn(int id) 
+		{
+			using (var context = new DatabaseContext())
+			{
+				return context.columns.SingleOrDefault(c => c.Id == id)!;
+			}
+		}
+		public void RemoveColumn(int id)
+		{
+			using (var context = new DatabaseContext())
+			{
+				KColumnModelDB item = context.columns.FirstOrDefault(c => c.Id == id)!;
+
+				if (item != null)
+				{
+					context.Remove(item);
+					context.SaveChanges();
+				}
 			}
 		}
 	}

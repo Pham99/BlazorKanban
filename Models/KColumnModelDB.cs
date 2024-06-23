@@ -7,12 +7,12 @@ namespace BlazorAppEmpty.Models
 	{
 		[Key]
 		public int Id { get; set; }
-		public int Name { get; set; }
-		List<KCardModelDB> Cards { get; set; }
+		public string Name { get; set; }
+		public List<KCardModelDB> Cards { get; set; } = new();
 
 		public KColumnModelDB(string Name) 
 		{
-			Name = Name;
+			this.Name = Name;
 		}
 	}
 }

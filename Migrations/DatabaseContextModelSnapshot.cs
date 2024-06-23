@@ -32,11 +32,21 @@ namespace BlazorAppEmpty.Migrations
                     b.Property<int>("IdUser")
                         .HasColumnType("INTEGER");
 
+                    b.Property<int>("KbColumnId")
+                        .HasColumnType("INTEGER");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("TEXT");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("INTEGER");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("KbColumnId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("cards");
                 });
@@ -47,8 +57,9 @@ namespace BlazorAppEmpty.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
-                    b.Property<int>("Name")
-                        .HasColumnType("INTEGER");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
@@ -63,19 +74,46 @@ namespace BlazorAppEmpty.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
                         .IsRequired()
+                        .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Password")
                         .IsRequired()
+                        .HasMaxLength(100)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("BlazorAppEmpty.Models.KCardModelDB", b =>
+                {
+                    b.HasOne("BlazorAppEmpty.Models.KColumnModelDB", "KbColumn")
+                        .WithMany("Cards")
+                        .HasForeignKey("KbColumnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BlazorAppEmpty.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("KbColumn");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BlazorAppEmpty.Models.KColumnModelDB", b =>
+                {
+                    b.Navigation("Cards");
                 });
 #pragma warning restore 612, 618
         }

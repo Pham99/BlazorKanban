@@ -19,7 +19,7 @@ namespace BlazorAppEmpty
                 .AddInteractiveServerComponents();
             builder.Services.AddSingleton<KanbanService>();
 
-            //pøidávám služby jako user atd...
+            //p?idávám služby jako user atd...
             builder.Services.AddSingleton<UserService>();
             builder.Services.AddSingleton<KanbanCardService>();
             builder.Services.AddSingleton<KanbanColumnService>();

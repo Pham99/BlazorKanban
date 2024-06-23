@@ -4,9 +4,9 @@
 @inject NavigationManager NavMan
 @inject KanbanService KS
 
-<div class="kanban-column" style="background-color: @Column.BoxColor">
-	<h2>@Column.Title</h2>
-		@foreach (var card in Column.Cards)
+<div class="kanban-column">
+	<h2>@Column.Name</h2>
+		@foreach (KCardModelDB card in Column.Cards)
 		{
 			<KanbanCard Card="card" originId="Column.Id"/>
 		}
@@ -15,7 +15,7 @@
 
 @code {
 	[Parameter]
-	public KanbanColumnModel? Column { get; set; }
+	public KColumnModelDB? Column { get; set; }
 
 	private void GoToForm()
 	{

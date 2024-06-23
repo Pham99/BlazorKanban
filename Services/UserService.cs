@@ -6,7 +6,7 @@ namespace BlazorAppEmpty.Services
 {
     public class UserService
     {
-        public User currentUser { get; set; }
+        public User? currentUser { get; set; }
 
         public async Task AddNewUser(User user)
         {

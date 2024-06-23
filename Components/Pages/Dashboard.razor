@@ -8,6 +8,7 @@
 @layout MainLayout
 @inject UserService US
 @inject KanbanService KanbanSvc
+@inject KanbanColumnService KCS
 
 <h2 class="user-header">Vítejte uživateli @user.Name !</h2>
 @if (Columns is null)
@@ -17,7 +18,7 @@
 else
 {
 	<div class="kanban-board">
-		@foreach (KanbanColumnModel column in Columns)
+		@foreach (KColumnModelDB column in Columns)
 		{
 			<KanbanColumn Column="column"></KanbanColumn>
 		}
@@ -26,12 +27,13 @@ else
 @code {
 
 	public User user { get; set; }
-	public List<KanbanColumnModel>? Columns { get; set; }
+	public List<KColumnModelDB>? Columns { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
 		//await Task.Delay(500);
-		Columns = await KanbanSvc.GetKanbanAsync();
+		//Columns = await KanbanSvc.GetKanbanAsync();
+		Columns = await KCS.GetColumns();
 		user = US.GetUser();
 	}
 }

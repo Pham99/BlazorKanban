@@ -5,6 +5,7 @@
 @inject NavigationManager NavMan
 @rendermode InteractiveServer
 @inject UserService US
+@inject KanbanCardService KCS
 
 <div class="kanban-card">
 	<b>
@@ -13,13 +14,10 @@
 	<p>
 		@Card.Description
 	</p>
-	<i>
-		@Card.Deadline
-	</i>
 
 	<strong>@Card.User.Name</strong>
 
-	<div>
+@* 	<div>
 	<select @bind="destinationId">
 		@foreach( var column in kbCol)
 		{
@@ -27,12 +25,12 @@
 		}
 	</select>
 	<button @onclick="Move">Move</button>
-	</div>
+	</div> *@
 </div>
 
 @code {
 	[Parameter]
-	public KanbanCardModel? Card { get; set; }
+	public KCardModelDB? Card { get; set; }
 	private bool hideMenu = true;
 	private int destinationId;
 	[Parameter]
@@ -48,14 +46,14 @@
 		user = US.GetUser();
 	}
 
-	private void Move()
-	{
-		if (destinationId != 0)
-		{
-			KanbanCardModel temp = Card;
-			kbCol.Find(x => x.Id == originId).Cards.Remove(Card);
-			kbCol.FirstOrDefault(x => x.Id == destinationId).Cards.Add(temp);
-			NavMan.Refresh(true);			
-		}
-	}
+	// private void Move()
+	// {
+	// 	if (destinationId != 0)
+	// 	{
+	// 		KanbanCardModel temp = Card;
+	// 		kbCol.Find(x => x.Id == originId).Cards.Remove(Card);
+	// 		kbCol.FirstOrDefault(x => x.Id == destinationId).Cards.Add(temp);
+	// 		NavMan.Refresh(true);			
+	// 	}
+	// }
 }

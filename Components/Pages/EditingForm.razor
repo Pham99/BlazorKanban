@@ -8,6 +8,7 @@
 @layout MainLayout
 @using BlazorAppEmpty.Services
 @inject UserService US
+@inject KanbanColumnService KCS
 
 @if (Column != null)
 {
@@ -18,7 +19,6 @@
 			<input id="Title" type="text" @bind="newTitle"/>
 			<label for="Description">Description</label>
 			<input id="Description" type="text" @bind="newDescription"/>
-			<input type="date" @bind="newDeadline"/>
 			<button @onclick="AddItem">Add Item</button>
 		</form>
 	</div>
@@ -27,9 +27,7 @@
 		<h1>Edit Column</h1>
 		<form>
 			<label for"Title">Title</label>
-			<input id="Title" type="text" @bind="Column.Title" />
-			<label for"Color">Colour</label>
-			<input id="Color" type="color" @bind="Column.BoxColor"/>
+			<input id="Title" type="text" @bind="Column.Name" />
 		</form>
 	</div>
 	<div class="form-container">
@@ -46,7 +44,7 @@ else
 @code {
 	[Parameter]
 	public int Id { get; set; }
-	public KanbanColumnModel? Column { get; set; }
+	public KColumnModelDB? Column { get; set; }
 	private string? newTitle;
 	private string? newDescription;
 	private DateOnly? newDeadline;
@@ -54,20 +52,22 @@ else
 
 	protected override void OnInitialized()
 	{
-		Column = KanbanSvc.kanbanColumns.Find(x => x.Id == Id);
+		//Column = KanbanSvc.kanbanColumns.Find(x => x.Id == Id);
+		Column = KCS.GetColumn(Id);
 		user = US.GetUser();
 	}
 
-	private void AddItem()
+	private async void AddItem()
 	{
-		Column.Cards.Add(new KanbanCardModel() {Title = newTitle, Description = newDescription, Deadline = newDeadline, User = user });
+		await KCS.AddCard(new KCardModelDB() { Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id});
 		newTitle = "";
 		newDescription = "";
 	}
 
 	private void DeleteColumn()
 	{
-		KanbanSvc.kanbanColumns.Remove(Column);
+		//KanbanSvc.kanbanColumns.Remove(Column);
+		KCS.RemoveColumn(Id);
 		NavMan.NavigateTo($"/");
 	}
 }

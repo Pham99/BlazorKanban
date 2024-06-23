@@ -12,10 +12,11 @@ namespace BlazorAppEmpty.Models
 
 		[ForeignKey("IdColumn")]
 		public int IdColumn { get; set; }
-		KColumnModelDB KbColumn { get; set; }
+		public KColumnModelDB KbColumn { get; set; }
 
 		[ForeignKey("IdUser")]
 		public int IdUser { get; set; }
+		public User User { get; set; }
 	}
 }
 
