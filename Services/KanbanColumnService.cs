@@ -9,17 +9,12 @@ namespace BlazorAppEmpty.Services
 	{
 		public List<KCardModelDB> Cards { get; set; }
 
-		public async Task AddCard(KCardModelDB KanbanCard)
+		public async Task AddCardToColumnAsync(KCardModelDB card)
 		{
-			using (var context = new DatabaseContext())
+			using ( var _context = new DatabaseContext() )
 			{
-				var column = context.columns.FirstOrDefault(c => c.Id == KanbanCard.IdColumn);
-				if (column != null)
-				{
-					column.Cards.Add(KanbanCard);
-				}
-				//await context.cards.AddAsync(KanbanCard);
-				await context.SaveChangesAsync();
+					_context.cards.Add(card);
+					await _context.SaveChangesAsync();
 			}
 		}
 

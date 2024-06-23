@@ -59,7 +59,7 @@ else
 
 	private async void AddItem()
 	{
-		await KCS.AddCard(new KCardModelDB() { Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id});
+		await KCS.AddCardToColumnAsync(new KCardModelDB() { Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Column.Id});
 		newTitle = "";
 		newDescription = "";
 	}

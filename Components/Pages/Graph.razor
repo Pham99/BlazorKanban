@@ -1,11 +1,14 @@
 ﻿@page "/graph"
 @layout Layout.MainLayout
+@using Services
+@inject KanbanCardService KCS
 
 
 <div class="container">
 	<LineChart @ref="lineChart" Width="1000"/>
 </div>
 
+<KanbanCard Card="card" originId="1" />
 
 @code 
 {
@@ -13,8 +16,13 @@
 	private LineChartOptions lineChartOptions = default!;
 	private ChartData chartData = default!;
 
+	private KCardModelDB card;
+
 	protected override void OnInitialized()
 	{
+		card = KCS.GetCardModel(1);
+
+
 		int totalStoryPoints = 100;
 		int days = 7;
 		float ratio = (float)totalStoryPoints / (days - 1);

@@ -9,11 +9,9 @@ namespace BlazorAppEmpty.Models
 		public int Id { get; set; }
 		public string Title { get; set; }
 		public string Description { get; set; }
-
 		public int IdColumn { get; set; }
 		[ForeignKey("IdColumn")]
 		public KColumnModelDB KbColumn { get; set; }
-
 		public int IdUser { get; set; }
 		[ForeignKey("IdUser")]
 		public User User { get; set; }

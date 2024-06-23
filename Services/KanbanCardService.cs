@@ -32,5 +32,12 @@ namespace BlazorAppEmpty.Services
 				return cards;
 			}
 		}
+		public KCardModelDB GetCardModel(int CardColumnId)
+		{
+			using (var context = new DatabaseContext())
+			{
+				return context.cards.FirstOrDefault(c => c.Id == CardColumnId)!;
+			}
+		}
 	}
 }
