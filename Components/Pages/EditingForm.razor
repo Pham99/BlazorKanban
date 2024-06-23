@@ -12,62 +12,77 @@
 
 @if (Column != null)
 {
-	<div class="form-container">
-		<h1>Add Card</h1>
-		<form>
-			<label for="Title">Title</label>
-			<input id="Title" type="text" @bind="newTitle"/>
-			<label for="Description">Description</label>
-			<input id="Description" type="text" @bind="newDescription"/>
-			<button @onclick="AddItem">Add Item</button>
-		</form>
-	</div>
+    <div class="form-container">
+        <h1>Add Card</h1>
+        <form>
+            <label for="Title">Title</label>
+            <input id="Title" type="text" @bind="newTitle" />
+            <label for="Description">Description</label>
+            <input id="Description" type="text" @bind="newDescription" />
+            <button @onclick="AddItem">Add Item</button>
+        </form>
+    </div>
 
-	<div class="form-container">
-		<h1>Edit Column</h1>
-		<form>
-			<label for"Title">Title</label>
-			<input id="Title" type="text" @bind="Column.Name" />
-		</form>
-	</div>
-	<div class="form-container">
-		<h1>Delete Column</h1>
-		<button class="button-red" @onclick="DeleteColumn">DELETE</button>
-	</div>
+    <div class="form-container">
+        <h1>Edit Column</h1>
+        <form>
+            <label for="Title">Title</label>
+            <input id="Title" type="text" @bind="Column.Name" />
+        </form>
+    </div>
+    <div class="form-container">
+        <h1>Delete Column</h1>
+        <button class="button-red" @onclick="DeleteColumn">DELETE</button>
+    </div>
+
 }
 else
 {
-	<p>nothing here</p>
+    <p>nothing here</p>
 }
 
-
 @code {
-	[Parameter]
-	public int Id { get; set; }
-	public KColumnModelDB? Column { get; set; }
-	private string? newTitle;
-	private string? newDescription;
-	private DateOnly? newDeadline;
-	public User? user;
+    [Parameter]
+    public int Id { get; set; }
+    public KColumnModelDB? Column { get; set; }
+    private string? newTitle;
+    private string? newDescription;
+    public User? user;
 
-	protected override void OnInitialized()
-	{
-		//Column = KanbanSvc.kanbanColumns.Find(x => x.Id == Id);
-		Column = KCS.GetColumn(Id);
-		user = US.GetUser();
-	}
+    protected override async Task OnInitializedAsync()
+    {
+        Column = await KCS.GetColumn(Id);
+        user = US.GetUser();
+    }
 
-	private async void AddItem()
-	{
-		await KCS.AddCard(new KCardModelDB() { Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id});
-		newTitle = "";
-		newDescription = "";
-	}
+    // private async Task AddItem()
+    // {
+    //     if (user != null && Column != null)
+    //     {
+    //         KCardModelDB card = new KCardModelDB()
+    //             {
+    //                 Title = newTitle,
+    //                 Description = newDescription,
+    //                 User = user,
+    //                 IdUser = user.Id,
+    //                 KbColumn = Column,
+    //                 IdColumn = Id
+    //             };
+    //         KCS.AddCard(card);
+    //         newTitle = "";
+    //         newDescription = "";
+    //     }
+    // }
 
-	private void DeleteColumn()
-	{
-		//KanbanSvc.kanbanColumns.Remove(Column);
-		KCS.RemoveColumn(Id);
-		NavMan.NavigateTo($"/");
-	}
+    //přidání jenom do listu, jelikož db nefunguje
+    public async Task AddItem()
+    {
+        KCS.AddCardToList(new KCardModelDB(){ Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id});
+    }
+
+    private async Task DeleteColumn()
+    {
+        await KCS.RemoveColumn(Id);
+        NavMan.NavigateTo("/");
+    }
 }
