@@ -7,7 +7,7 @@
 @inject UserService US
 @inject KanbanCardService KCS
 
-<div class="kanban-card">
+<div class="kanban-card" @onclick="RedirectToCardInfo">
 	<b>
 		@Card.Title
 	</b>
@@ -15,45 +15,22 @@
 		@Card.Description
 	</p>
 
-	<strong>@Card.User.Name</strong>
-
-@* 	<div>
-	<select @bind="destinationId">
-		@foreach( var column in kbCol)
-		{
-			<option value="@column.Id">@column.Title</option>
-		}
-	</select>
-	<button @onclick="Move">Move</button>
-	</div> *@
+	<span class="badge bg-primary"><strong>@Card.User.Name</strong></span>
 </div>
 
 @code {
 	[Parameter]
 	public KCardModelDB? Card { get; set; }
-	private bool hideMenu = true;
-	private int destinationId;
-	[Parameter]
-	public int originId { get; set; }
-
-	private List<KanbanColumnModel>? kbCol;
 
 	public User user { get; set; }
 
 	protected override void OnInitialized()
 	{
-		kbCol = kanbanSvc.kanbanColumns;
 		user = US.GetUser();
 	}
 
-	// private void Move()
-	// {
-	// 	if (destinationId != 0)
-	// 	{
-	// 		KanbanCardModel temp = Card;
-	// 		kbCol.Find(x => x.Id == originId).Cards.Remove(Card);
-	// 		kbCol.FirstOrDefault(x => x.Id == destinationId).Cards.Add(temp);
-	// 		NavMan.Refresh(true);			
-	// 	}
-	// }
+	private void RedirectToCardInfo()
+	{
+		NavMan.NavigateTo($"/cardinfo/{Card.Id}");
+	}
 }

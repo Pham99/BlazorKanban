@@ -7,10 +7,10 @@
 @inject KanbanColumnService KCS
 
 <div class="kanban-column">
-	<h2>@Column.Name)</h2>
+	<h2>@Column.Name</h2>
 		@foreach (KCardModelDB card in GetListById())
 		{
-			<KanbanCard Card="card" originId="Column.Id"/>
+			<KanbanCard Card="card"/>
 		}
 		<button class="circular-button" @onclick="GoToForm">Edit</button>
 </div>

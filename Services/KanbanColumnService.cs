@@ -108,6 +108,13 @@ namespace BlazorAppEmpty.Services
                 return await context.columns.Include(c => c.Cards).SingleOrDefaultAsync(c => c.Id == id);
             }
         }
+        public List<KColumnModelDB> GetColumnsSynch()
+        {
+            using (var context = new DatabaseContext())
+            {
+                return context.columns.ToList();
+            }
+        }
 
         public async Task RemoveColumn(int id)
         {

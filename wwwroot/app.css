@@ -68,6 +68,7 @@ h1:focus {
 
 .kanban-card:hover {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
 }
 
 /* FORM */
@@ -93,7 +94,10 @@ h1:focus {
 
 .form-container input[type="text"],
 .form-container input[type="date"],
-.form-container input[type="color"] {
+.form-container input[type="color"],
+.form-container input[type="number"],
+.form-container input[type="date"],
+.form-container select{
     width: 100%;
     margin-bottom: 15px;
     padding: 10px;

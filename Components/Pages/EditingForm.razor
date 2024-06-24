@@ -19,17 +19,20 @@
             <input id="Title" type="text" @bind="newTitle" />
             <label for="Description">Description</label>
             <input id="Description" type="text" @bind="newDescription" />
+            <label for="StoryPoins">Story Points</label>
+            <input id="StoryPoints" type="number" @bind="newNumber" />
+
             <button @onclick="AddItem">Add Item</button>
         </form>
     </div>
 
-    <div class="form-container">
+@*     <div class="form-container">
         <h1>Edit Column</h1>
         <form>
             <label for="Title">Title</label>
             <input id="Title" type="text" @bind="Column.Name" />
         </form>
-    </div>
+    </div> *@
     <div class="form-container">
         <h1>Delete Column</h1>
         <button class="button-red" @onclick="DeleteColumn">DELETE</button>
@@ -47,6 +50,7 @@ else
     public KColumnModelDB? Column { get; set; }
     private string? newTitle;
     private string? newDescription;
+    private int? newNumber;
     public User? user;
 
     protected override async Task OnInitializedAsync()
@@ -77,7 +81,7 @@ else
     //přidání jenom do listu, jelikož db nefunguje
     public async Task AddItem()
     {
-        KCS.AddCardToList(new KCardModelDB(){ Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id});
+        KCS.AddCardToList(new KCardModelDB(){ Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id, StoryPoints = newNumber});
     }
 
     private async Task DeleteColumn()

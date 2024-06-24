@@ -1,5 +1,7 @@
 ﻿@page "/graph"
 @layout Layout.MainLayout
+@using Services
+@inject KanbanColumnService KCS
 
 
 <div class="container">
@@ -15,30 +17,53 @@
 
 	protected override void OnInitialized()
 	{
-		int totalStoryPoints = 100;
+		List<KCardModelDB> cards = KCS.GetCardsList();
+
+		int totalStoryPoints = (int)cards.Sum(card => card.StoryPoints)!;
+		float points = (float)totalStoryPoints;
 		int days = 7;
-		float ratio = (float)totalStoryPoints / (days - 1);
+		float ratio = (float)totalStoryPoints! / (days - 1);
 
 		List<double> idealData = new List<double>();
 
-		float points = totalStoryPoints;
 		for(int i = 0; i < days; i++)
 		{
 			idealData.Add(points);
 			points -= ratio;
 		}
 
+		List<DateTime> dates = new List<DateTime>();
+		DateTime today = DateTime.Today;
+		for (int i = 0; i < days; i++)
+		{
+			dates.Add(today.AddDays(i));
+		}
 
+		List<string> stringDates = dates.Select(dt => dt.ToString("dd/MM/yyyy")).ToList();
+
+		List<double> realData = new List<double>();
+		for (int i = 0; i < days; i++)
+		{
+			if (cards.Any(c => c.DateComplete > dates[i].AddDays(1)))
+			{
+				double data = (double)cards.Where(card => card.DateComplete != null).Where(c => c.DateComplete < dates[i].AddDays(1)).Sum(c => c.StoryPoints)!;
+				realData.Add(totalStoryPoints - data);
+			}
+			else
+			{
+				break;
+			}
+		}
 
 		var colors = ColorUtility.CategoricalTwelveColors;
 
-		var labels = new List<string> { "1", "2", "3", "4", "5", "6", "7" };
+		var labels = stringDates;
 		var datasets = new List<IChartDataset>();
 
 		var dataset1 = new LineChartDataset
-		{
+			{
 			Label = "Real Pogress",
-			Data = new List<double> { 100, 78, 72, 65, 21, 8, 0 },
+			Data = realData,
 			BackgroundColor = new List<string> { colors[0] },
 			BorderColor = new List<string> { colors[0]},
 			BorderWidth = new List<double> { 4 },
