@@ -44,12 +44,9 @@
 		List<double> realData = new List<double>();
 		for (int i = 0; i < days; i++)
 		{
+			double data = (double)cards.Where(card => card.DateComplete != null).Where(c => c.DateComplete < dates[i].AddDays(1)).Sum(c => c.StoryPoints)!;
+			realData.Add(totalStoryPoints - data);
 			if (cards.Any(c => c.DateComplete > dates[i].AddDays(1)))
-			{
-				double data = (double)cards.Where(card => card.DateComplete != null).Where(c => c.DateComplete < dates[i].AddDays(1)).Sum(c => c.StoryPoints)!;
-				realData.Add(totalStoryPoints - data);
-			}
-			else
 			{
 				break;
 			}
