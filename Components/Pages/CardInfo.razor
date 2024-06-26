@@ -1,0 +1,76 @@
+﻿@page "/cardinfo/{id}"
+@layout Layout.MainLayout
+@inject NavigationManager NavMan
+@using Services
+@inject KanbanColumnService KCS
+
+<div class="form-container">
+	<h1>@Card.Title</h1>
+	<h6>by @Card.User.Name</h6>
+	<div>@Card.Description</div>
+	@if( Card.DateComplete != null)
+	{
+		<div>Completed on @Card.DateComplete</div>
+	}
+</div>
+
+
+<div class="form-container">
+	<h1>Mark Complete</h1>
+	<form>
+		<label for="Date">Date</label>
+		<input id="Date" type="date" @bind="newDate" />
+		<button @onclick="MarkComplete">Mark Complete</button>
+	</form>
+</div>
+
+<div class="form-container">
+	<h1>Move Card</h1>
+	<select @bind="DestinationId">
+		@foreach(var column in kbCol)
+		{
+			<option value="@column.Id">@column.Name</option>
+		}
+	</select>
+	<button @onclick="Move">Move</button>
+</div>
+<div class="form-container">
+	<h1>Delete Card</h1>
+	<button class="button-red" @onclick="DeleteCard">DELETE</button>
+</div>
+
+@code {
+	[Parameter]
+	public string Id { get; set; }
+	private int DestinationId { get; set; }
+	private KCardModelDB Card { get; set; }
+	private List<KColumnModelDB>? kbCol;
+	private DateTime newDate = DateTime.Now;
+
+	protected override void OnInitialized()
+	{
+		Card = KCS.GetCardsList().First(x => x.Title == Id);
+		kbCol = KCS.GetColumnsSynch();
+	}
+
+	private void Move()
+	{
+		if (DestinationId > 0)
+		{
+			Card.IdColumn = DestinationId;
+			// KCardModelDB temp = Card;
+			// KCS.GetCardsList().Remove(Card);
+			// KCS.GetCardsList().Add(temp);
+			NavMan.NavigateTo("/dashboard");
+		}
+	}
+	private void MarkComplete()
+	{
+		Card.DateComplete = newDate;
+	}
+	private void DeleteCard()
+	{
+		KCS.GetCardsList().Remove(Card);
+		NavMan.NavigateTo($"/dashboard");
+	}
+}
