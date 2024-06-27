@@ -20,7 +20,10 @@
             <label for="Description">Description</label>
             <input id="Description" type="text" @bind="newDescription" />
             <label for="StoryPoins">Story Points</label>
-            <input id="StoryPoints" type="number" @bind="newNumber" />
+            <div class="d-flex flex-row mb-3">
+                <RangeInput TValue="int" @bind-Value="amount1" Min="1" Max="10" Id="StoryPoints" />
+                <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="amount1">@amount1</Badge>
+            </div>
 
             <button @onclick="AddItem">Add Item</button>
         </form>
@@ -52,6 +55,7 @@ else
     private string? newDescription;
     private int? newNumber;
     public User? user;
+    public int amount1;
 
     protected override async Task OnInitializedAsync()
     {
@@ -81,7 +85,7 @@ else
     //přidání jenom do listu, jelikož db nefunguje
     public async Task AddItem()
     {
-        KCS.AddCardToList(new KCardModelDB(){ Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id, StoryPoints = newNumber});
+        KCS.AddCardToList(new KCardModelDB(){ Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id, StoryPoints = amount1});
     }
 
     private async Task DeleteColumn()
