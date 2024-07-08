@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-namespace BlazorAppEmpty.Models
+namespace KanbanApp.Models
 {
-    public class User
+    public class UserModel
     {
         [Key]
         public int Id { get; set; }
@@ -16,5 +16,6 @@ namespace BlazorAppEmpty.Models
         [Required]
         [StringLength(100)]
         public string Password { get; set; }
+        public List<KanbanCardModel> Cards { get; set; } = new List<KanbanCardModel>();
     }
 }

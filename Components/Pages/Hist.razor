@@ -1,0 +1,68 @@
+﻿@page "/hist"
+@layout Layout.MainLayout
+@using Services
+@inject KanbanCardService KCardS
+
+<div class="container">
+	<BarChart @ref="barChart" Width="1000" Class="mb-4" />
+</div>
+
+@code {
+    private BarChart barChart = default!;
+    private BarChartOptions barChartOptions = default!;
+    private ChartData chartData = default!;
+
+    protected async override Task OnInitializedAsync()
+    {
+        var labels = new List<string> { "1", "2", "3", "4", "5", "6", "7", "8", "9", "10" };
+        var datasets = new List<IChartDataset>();
+
+        var cards = await KCardS.GetCardsListAsync();
+
+        List<double> data = new List<double>();
+
+        for (int i = 1; i < 11; i++){
+            data.Add(cards.Where(card => card.StoryPoints == i).Count());
+        }
+
+
+        var colors = ColorUtility.CategoricalTwelveColors;
+
+        var dataset1 = new BarChartDataset()
+            {
+                Label = "Count",
+                Data = data,
+                BackgroundColor = new List<string> { colors[0] },
+                BorderColor = new List<string> { colors[0] },
+                BorderWidth = new List<double> { 0 },
+            };
+        datasets.Add(dataset1);
+
+        chartData = new ChartData
+            {
+                Labels = labels,
+                Datasets = datasets
+            };
+
+        barChartOptions = new BarChartOptions();
+        barChartOptions.Responsive = true;
+        barChartOptions.Interaction = new Interaction { Mode = InteractionMode.Y };
+        barChartOptions.IndexAxis = "x";
+
+        barChartOptions.Scales.X!.Title = new ChartAxesTitle { Text = "Story Points", Display = true };
+        barChartOptions.Scales.Y!.Title = new ChartAxesTitle { Text = "Frequency", Display = true };
+
+        barChartOptions.Plugins.Title!.Text = "Burndown";
+        barChartOptions.Plugins.Title.Display = true;
+
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await barChart.InitializeAsync(chartData, barChartOptions);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

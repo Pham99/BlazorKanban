@@ -1,17 +1,15 @@
 ﻿@page "/editform/{id:int}"
-@using Data;
-@using BlazorAppEmpty.Models
-@using BlazorAppEmpty.Components.Layout
-@inject KanbanService KanbanSvc
-@inject NavigationManager NavMan
-@rendermode InteractiveServer
 @layout MainLayout
-@using BlazorAppEmpty.Services
+@using KanbanApp.Components.Layout
+@rendermode InteractiveServer
+@inject NavigationManager NavMan
 @inject UserService US
-@inject KanbanColumnService KCS
+@inject KanbanCardService KCardS
+@inject KanbanColumnService KColumnS
 
 @if (Column != null)
 {
+    @user.Name
     <div class="form-container">
         <h1>Add Card</h1>
         <form>
@@ -21,8 +19,8 @@
             <input id="Description" type="text" @bind="newDescription" />
             <label for="StoryPoins">Story Points</label>
             <div class="d-flex flex-row mb-3">
-                <RangeInput TValue="int" @bind-Value="amount1" Min="1" Max="10" Id="StoryPoints" />
-                <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="amount1">@amount1</Badge>
+                <RangeInput TValue="int" @bind-Value="newStoryPoints" Min="1" Max="10" Id="StoryPoints" />
+                <Badge Color="BadgeColor.Primary" Class="ms-2" VisuallyHiddenText="newStoryPoints">@newStoryPoints</Badge>
             </div>
 
             <button @onclick="AddItem">Add Item</button>
@@ -50,47 +48,40 @@ else
 @code {
     [Parameter]
     public int Id { get; set; }
-    public KColumnModelDB? Column { get; set; }
+    private KanbanColumnModel? Column { get; set; }
     private string? newTitle;
     private string? newDescription;
     private int? newNumber;
-    public User? user;
-    public int amount1;
+    private UserModel? user;
+    private int newStoryPoints;
 
     protected override async Task OnInitializedAsync()
     {
-        Column = await KCS.GetColumn(Id);
+        Column = await KColumnS.GetColumnAsync(Id);
         user = US.GetUser();
     }
 
-    // private async Task AddItem()
-    // {
-    //     if (user != null && Column != null)
-    //     {
-    //         KCardModelDB card = new KCardModelDB()
-    //             {
-    //                 Title = newTitle,
-    //                 Description = newDescription,
-    //                 User = user,
-    //                 IdUser = user.Id,
-    //                 KbColumn = Column,
-    //                 IdColumn = Id
-    //             };
-    //         KCS.AddCard(card);
-    //         newTitle = "";
-    //         newDescription = "";
-    //     }
-    // }
-
-    //přidání jenom do listu, jelikož db nefunguje
-    public async Task AddItem()
+    private async Task AddItem()
     {
-        KCS.AddCardToList(new KCardModelDB(){ Title = newTitle, Description = newDescription, User = user, IdUser = user.Id, KbColumn = Column, IdColumn = Id, StoryPoints = amount1});
+        Console.WriteLine("pressed AddItem");
+        if (user != null && Column != null)
+        {
+            KanbanCardModel card = new KanbanCardModel
+                {
+                    Title = newTitle,
+                    Description = newDescription,
+                    StoryPoints = newStoryPoints,
+                    User = user
+                };
+            await KCardS.AddCardAsync(card, Id);
+            newTitle = "";
+            newDescription = "";
+        }
     }
 
     private async Task DeleteColumn()
     {
-        await KCS.RemoveColumn(Id);
-        NavMan.NavigateTo("/");
+        await KColumnS.RemoveColumnAsync(Id);
+        NavMan.NavigateTo("/dashboard");
     }
 }

@@ -1,7 +1,6 @@
 ﻿@page "/graph"
 @layout Layout.MainLayout
-@using Services
-@inject KanbanColumnService KCS
+@inject KanbanCardService KCardS
 
 
 <div class="container">
@@ -15,9 +14,9 @@
 	private LineChartOptions lineChartOptions = default!;
 	private ChartData chartData = default!;
 
-	protected override void OnInitialized()
+	protected async override Task OnInitializedAsync()
 	{
-		List<KCardModelDB> cards = KCS.GetCardsList();
+		List<KanbanCardModel> cards = await KCardS.GetCardsListAsync();
 
 		int totalStoryPoints = (int)cards.Sum(card => card.StoryPoints)!;
 		float points = (float)totalStoryPoints;
@@ -46,7 +45,7 @@
 		{
 			double data = (double)cards.Where(card => card.DateComplete != null).Where(c => c.DateComplete < dates[i].AddDays(1)).Sum(c => c.StoryPoints)!;
 			realData.Add(totalStoryPoints - data);
-			if (cards.Any(c => c.DateComplete > dates[i].AddDays(1)))
+			if (!cards.Any(c => c.DateComplete > dates[i]))
 			{
 				break;
 			}

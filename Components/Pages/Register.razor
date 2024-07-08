@@ -1,6 +1,6 @@
 ﻿@page "/register"
-@using BlazorAppEmpty.Services
-@using BlazorAppEmpty.Models
+@using KanbanApp.Services
+@using KanbanApp.Models
 @inject UserService US
 
 <div class="register-form">
@@ -22,7 +22,7 @@
 
 @code {
 	[SupplyParameterFromForm]
-	public User? user { get; set; }
+	public UserModel? user { get; set; }
 
 	//zajištění, že user je inicializován před použitím
 	protected override void OnInitialized()
@@ -33,6 +33,6 @@
 	public async Task AddUser()
 	{
 		await US.AddNewUser(user);
-		user = new User();
+		user = new UserModel();
 	}
 }

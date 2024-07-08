@@ -1,6 +1,6 @@
 ﻿@page "/"
-@using BlazorAppEmpty.Services
-@using BlazorAppEmpty.Models
+@using KanbanApp.Services
+@using KanbanApp.Models
 @inject UserService US
 @inject NavigationManager Navman
 
@@ -23,7 +23,7 @@
 
 @code {
     [SupplyParameterFromForm]
-    public User? user { get; set; }
+    public UserModel? user { get; set; }
 
     public string ErrorMsg { get; set; }
 
@@ -38,7 +38,6 @@
         bool exists = await US.UserExists(user);
         if (exists)
         {
-            US.currentUser = user;
             Navman.NavigateTo("/dashboard");
         }
         else

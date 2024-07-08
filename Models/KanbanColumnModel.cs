@@ -1,19 +1,16 @@
-﻿
-namespace BlazorAppEmpty.Models
-{
-    public class KanbanColumnModel
-    {
-        private static int IdCount = 1;
-        public int Id { get; set; }
-        public string? Title { get; set; }
-        public string? BoxColor { get; set; }
-        public List<KanbanCardModel> Cards { get; set; } = new List<KanbanCardModel>();
+﻿using KanbanApp.Components.Pages;
+using System.ComponentModel.DataAnnotations;
 
-        public KanbanColumnModel(string title, string color)
-        {
-            Id = IdCount++;
-            Title = title;
-            BoxColor = color;
-        }
-    }
+namespace KanbanApp.Models
+{
+	public class KanbanColumnModel
+	{
+		[Key]
+		public int Id { get; set; }
+		
+		[Required]
+		public string Name { get; set; }
+		
+		public List<KanbanCardModel> Cards { get; set; } = new();
+	}
 }

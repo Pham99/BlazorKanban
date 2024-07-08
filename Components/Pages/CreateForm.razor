@@ -1,11 +1,8 @@
 ﻿@page "/createform"
 @rendermode InteractiveServer
-@using Data
-@inject KanbanService KanbanSvc
-@using BlazorAppEmpty.Components.Layout
+@using KanbanApp.Components.Layout
 @layout MainLayout
-@using BlazorAppEmpty.Services
-@inject KanbanColumnService KanbanColSvc
+@inject KanbanColumnService KColumnS
 
 <div class="form-container">
 	<form>
@@ -25,7 +22,7 @@
 
 	public void AddColumn()
 	{
-		KanbanColSvc.AddColumn(new KColumnModelDB(newTitle));
+		KColumnS.AddColumnAsync(new KanbanColumnModel() {Name = newTitle} );
 		newTitle = "";
 		color = "#f4f4f4";
 	}

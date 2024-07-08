@@ -1,16 +1,12 @@
 ﻿@page "/dashboard"
-@using BlazorAppEmpty.Data
-@using BlazorAppEmpty.Models
-@using BlazorAppEmpty.Services
-@using BlazorAppEmpty.Components.Layout
+@layout MainLayout
+@using KanbanApp.Components.Layout
 @rendermode @(new InteractiveServerRenderMode(false))
 @attribute [StreamRendering]
-@layout MainLayout
 @inject UserService US
-@inject KanbanService KanbanSvc
-@inject KanbanColumnService KCS
+@inject KanbanColumnService KColumnS
 
-<h2 class="user-header">Vítejte uživateli @user.Name !</h2>
+<h2 class="user-header">Vítejte uživateli @User.Name!</h2>
 @if (Columns is null)
 {
 	<p>Loading...</p>
@@ -18,7 +14,7 @@
 else
 {
 	<div class="kanban-board">
-		@foreach (KColumnModelDB column in Columns)
+		@foreach (KanbanColumnModel column in Columns)
 		{
 			<KanbanColumn Column="column"></KanbanColumn>
 		}
@@ -26,14 +22,13 @@ else
 }
 @code {
 
-	public User user { get; set; }
-	public List<KColumnModelDB>? Columns { get; set; }
+	public UserModel User { get; set; }
+	public List<KanbanColumnModel>? Columns { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
 		//await Task.Delay(500);
-		//Columns = await KanbanSvc.GetKanbanAsync();
-		Columns = await KCS.GetColumns();
-		user = US.GetUser();
+		Columns = await KColumnS.GetColumnsAsync();
+		User = US.GetUser();
 	}
 }

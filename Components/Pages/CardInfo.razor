@@ -1,8 +1,8 @@
-﻿@page "/cardinfo/{id}"
+﻿@page "/cardinfo/{id:int}"
 @layout Layout.MainLayout
 @inject NavigationManager NavMan
-@using Services
-@inject KanbanColumnService KCS
+@inject KanbanCardService KCardS
+@inject KanbanColumnService KColumnS
 
 <div class="form-container">
 	<h1>@Card.Title</h1>
@@ -28,7 +28,7 @@
 <div class="form-container">
 	<h1>Move Card</h1>
 	<select @bind="DestinationId">
-		@foreach(var column in kbCol)
+		@foreach(var column in Columns)
 		{
 			<option value="@column.Id">@column.Name</option>
 		}
@@ -42,36 +42,37 @@
 
 @code {
 	[Parameter]
-	public string Id { get; set; }
+	public int Id { get; set; }
 	private int DestinationId { get; set; }
-	private KCardModelDB Card { get; set; }
-	private List<KColumnModelDB>? kbCol;
+	private KanbanCardModel Card { get; set; }
+	private List<KanbanColumnModel>? Columns { get; set; }
 	private DateTime newDate = DateTime.Now;
 
-	protected override void OnInitialized()
+	protected async override Task OnInitializedAsync()
 	{
-		Card = KCS.GetCardsList().First(x => x.Title == Id);
-		kbCol = KCS.GetColumnsSynch();
+		var CardTask = KCardS.GetCardByIdAsync(Id);
+		var ColumnsTask = KColumnS.GetColumnsAsync();
+		Card = await CardTask;
+		Columns = await ColumnsTask;
+		Columns = Columns.Where(x => x.Id != Card.IdColumn).ToList();
 	}
 
-	private void Move()
+	private async Task Move()
 	{
 		if (DestinationId > 0)
 		{
-			Card.IdColumn = DestinationId;
-			// KCardModelDB temp = Card;
-			// KCS.GetCardsList().Remove(Card);
-			// KCS.GetCardsList().Add(temp);
+			await KCardS.MoveCard(Card.Id, DestinationId);
 			NavMan.NavigateTo("/dashboard");
 		}
 	}
 	private void MarkComplete()
 	{
 		Card.DateComplete = newDate;
+		KCardS.UpdateCard(Card);
 	}
 	private void DeleteCard()
 	{
-		KCS.GetCardsList().Remove(Card);
+		KCardS.RemoveCard(Card);
 		NavMan.NavigateTo($"/dashboard");
 	}
 }

@@ -1,14 +1,10 @@
-﻿@using Data
-@using BlazorAppEmpty.Models
-@using BlazorAppEmpty.Services
-@rendermode InteractiveServer
+﻿@rendermode InteractiveServer
 @inject NavigationManager NavMan
-@inject KanbanService KS
-@inject KanbanColumnService KCS
+@inject KanbanColumnService KColumnS
 
 <div class="kanban-column">
 	<h2>@Column.Name</h2>
-		@foreach (KCardModelDB card in GetListById())
+		@foreach (KanbanCardModel card in Column.Cards)
 		{
 			<KanbanCard Card="card"/>
 		}
@@ -16,16 +12,16 @@
 </div>
 
 @code {
-	[Parameter]
-	public KColumnModelDB? Column { get; set; }
+    [Parameter]
+    public KanbanColumnModel Column { get; set; }
 
-	List<KCardModelDB> cardsL = new List<KCardModelDB>();
+    List<KanbanCardModel> cardsL = new List<KanbanCardModel>();
 
-	public List<KCardModelDB> GetListById()
-	{
-		cardsL = KCS.GetCardsList();
-		var list = cardsL.FindAll(x => x.IdColumn == Column.Id);
-		return list;
+    protected override Task OnInitializedAsync() => GetListById();
+
+    public async Task GetListById()
+    {
+		cardsL = await KColumnS.GetCardsByColumnIdAsync(Column.Id);
 	}
 
 	private void GoToForm()

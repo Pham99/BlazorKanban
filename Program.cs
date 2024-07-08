@@ -1,9 +1,9 @@
-using BlazorAppEmpty.Components;
-using BlazorAppEmpty.Data;
-using BlazorAppEmpty.Services;
+using KanbanApp.Components;
+using KanbanApp.Data;
+using KanbanApp.Services;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorAppEmpty
+namespace KanbanApp
 {
     public class Program
     {
@@ -17,7 +17,6 @@ namespace BlazorAppEmpty
             // Add services to the container.
             builder.Services.AddRazorComponents()
                 .AddInteractiveServerComponents();
-            builder.Services.AddSingleton<KanbanService>();
 
             //p?idávám služby jako user atd...
             builder.Services.AddSingleton<UserService>();

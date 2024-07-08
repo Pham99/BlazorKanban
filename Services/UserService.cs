@@ -1,14 +1,14 @@
-﻿using BlazorAppEmpty.Data;
-using BlazorAppEmpty.Models;
+﻿using KanbanApp.Data;
+using KanbanApp.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace BlazorAppEmpty.Services
+namespace KanbanApp.Services
 {
     public class UserService
     {
-        public User? currentUser { get; set; }
+        public UserModel? currentUser { get; set; }
 
-        public async Task AddNewUser(User user)
+        public async Task AddNewUser(UserModel user)
         {
             using (var context = new DatabaseContext())
             {
@@ -17,16 +17,25 @@ namespace BlazorAppEmpty.Services
             }
         }
 
-        public async Task<bool> UserExists(User user)
+        public async Task<bool> UserExists(UserModel user)
         {
             using (var context = new DatabaseContext())
             {
-                bool exists = await context.users.AnyAsync(u => u.Name == user.Name && u.Password == user.Password);
-                return exists;
+                var exists = await context.users.FirstAsync(u => u.Name == user.Name && u.Password == user.Password);
+                if(exists == null)
+                {
+                    return false;
+                }
+                else
+                {
+                    currentUser = exists;
+                    return true;
+                }
+
             }
         }
 
-        public User GetUser()
+        public UserModel GetUser()
         {
             return currentUser;
         }

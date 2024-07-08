@@ -1,11 +1,6 @@
-﻿@using Data
-@using BlazorAppEmpty.Models
-@using BlazorAppEmpty.Services
-@inject KanbanService kanbanSvc
-@inject NavigationManager NavMan
+﻿@inject NavigationManager NavMan
 @rendermode InteractiveServer
 @inject UserService US
-@inject KanbanCardService KCS
 
 <div class="kanban-card" @onclick="RedirectToCardInfo">
 	<b>
@@ -20,9 +15,9 @@
 
 @code {
 	[Parameter]
-	public KCardModelDB? Card { get; set; }
+	public KanbanCardModel? Card { get; set; }
 
-	public User user { get; set; }
+	public UserModel user { get; set; }
 
 	protected override void OnInitialized()
 	{
@@ -31,6 +26,6 @@
 
 	private void RedirectToCardInfo()
 	{
-		NavMan.NavigateTo($"/cardinfo/{Card.Title}");
+		NavMan.NavigateTo($"/cardinfo/{Card.Id}");
 	}
 }
